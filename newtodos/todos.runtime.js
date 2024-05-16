@@ -12,7 +12,7 @@ appRoute.register("todos/:id", <TodoItem />)
 
 function TodoItem() {
     const { id } = useParams()
-    const todo = getTodo.useResults({ id })
+    const todo = getTodo.useResults(id)
     return (
         <>
             <DummyComponent todo={todo} />

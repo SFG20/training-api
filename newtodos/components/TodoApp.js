@@ -1,13 +1,32 @@
 import { getTodos } from "routes/plugins/newtodos/controller/getTodos"
 
-import { List, ListItemButton } from "@mui/material"
+import { IconButton, List, ListItemButton, ListItemText } from "@mui/material"
 import LoadingScreen from "minimals-template/components/LoadingScreen"
 import { navigate } from "lib/routes/navigate"
+import { BlockClicks } from "lib/@components/block-clicks"
+import Iconify from "minimals-template/components/Iconify"
+import { deleteTodo } from "routes/plugins/newtodos/controller/deleteTodo"
+
+function DeleteButton({ id }) {
+    return (
+        <BlockClicks>
+            <IconButton onClick={handleDelete} sx={{ color: "red" }} edge="end" aria-label="delete">
+                <Iconify icon="fluent:delete-12-regular" />
+            </IconButton>
+        </BlockClicks>
+    )
+
+    async function handleDelete() {
+        const deletedTodo = await deleteTodo(id)
+        console.log("deletedTodo", deletedTodo)
+    }
+}
 
 function TodoListItem({ todo }) {
     return (
         <ListItemButton onClick={handleNavigate} component="a" key={todo.id} role={undefined}>
-            {todo.title}
+            <ListItemText> {todo.title}</ListItemText>
+            <DeleteButton id={todo.id} />
         </ListItemButton>
     )
     function handleNavigate() {

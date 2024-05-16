@@ -1,6 +1,7 @@
 import { registerAPI } from "library/api/index.js"
 import { TodoTaskTable } from "library/known-tables/index.js"
 import { generate } from "library/guid/index.js"
+import { registerInvalidations } from "library/graphql/client-invalidations.js"
 
 const TODO_STATUS = {
     TODO: "TODO",
@@ -41,8 +42,10 @@ registerAPI(
     // resolvers
     {
         Query: {
-            getTodo,
-            getTodos,
+            ...registerInvalidations(TodoTaskTable.source, {
+                getTodo,
+                getTodos,
+            }),
         },
         Mutation: {
             createTodo,

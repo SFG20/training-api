@@ -1,12 +1,12 @@
 import { api } from "lib/graphql/api"
-import { query } from "lib/graphql/query"
+import { mutate } from "lib/graphql/mutate"
 import { gql } from "@apollo/client"
 
-export const getTodo = api((id) =>
-    query(
+export const deleteTodo = api(async function deleteTodo(id) {
+    return mutate(
         gql`
-            query GetTodo($id: String!) {
-                getTodo(id: $id) {
+            mutation DeleteTodo($id: String!) {
+                deleteTodo(id: $id) {
                     _deleted
                     _id
                     completed
@@ -17,7 +17,9 @@ export const getTodo = api((id) =>
                 }
             }
         `,
-        { id },
-        { returns: "getTodo" }
+        {
+            id,
+        },
+        { returns: "deleteTodo" }
     )
-)
+})
